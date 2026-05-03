@@ -1,48 +1,98 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+
+const imageExample = `{
+  type: 'image',
+  src: '/gallery/photo-2026-05-04.jpg',
+  title: '照片标题',
+  description: '这里写照片描述。'
+}`;
+
+const videoExample = `{
+  type: 'video',
+  src: '/gallery/video-2026-05-04.mp4',
+  title: '视频标题',
+  description: '这里写视频描述。'
+}`;
 ---
 
-<BaseLayout title="写作指南" description="如何给博客新增文章。">
+<BaseLayout title="内容发布指南" description="如何新增博客、照片墙内容和附件。">
   <section class="site-shell page">
     <header class="page-header">
-      <span class="eyebrow">Writing</span>
-      <h1>如何新增博客</h1>
-      <p>当前最稳的方式是使用 Markdown 写文章，然后通过 GitHub 自动部署。</p>
+      <span class="eyebrow">Guide</span>
+      <h1>内容发布指南</h1>
+      <p>这里说明三件事：如何添加博客文章、如何更新照片墙、如何给文章或页面添加附件。</p>
     </header>
 
     <div class="article-body writing-guide">
-      <h2>方式一：在 GitHub 网页里直接新增</h2>
+      <h2>一、添加博客文章</h2>
+      <p>文章统一放在 <code>src/content/blog/</code> 目录下，每篇文章是一个 Markdown 文件。</p>
+
+      <h3>在 GitHub 网页添加</h3>
       <ol>
         <li>打开仓库 <a href="https://github.com/hututu1226/blog">hututu1226/blog</a>。</li>
         <li>进入 <code>src/content/blog</code> 目录。</li>
+        <li>复制 <code>_template.md</code> 的内容。</li>
         <li>点击 <code>Add file</code>，选择 <code>Create new file</code>。</li>
-        <li>文件名建议写成 <code>2026-05-03-my-post.md</code> 这种格式。</li>
-        <li>写完后点击 <code>Commit changes</code>，GitHub Actions 会自动更新网站。</li>
+        <li>文件名建议写成 <code>2026-05-04-my-note.md</code>，尽量使用英文、数字和短横线。</li>
+        <li>把 <code>draft</code> 改成 <code>false</code>，填写正文后提交。</li>
       </ol>
 
-      <h2>方式二：在本地项目里新增</h2>
-      <p>在 <code>D:\个人blog\src\content\blog</code> 下新增一个 <code>.md</code> 文件，格式如下：</p>
-
+      <h3>文章模板</h3>
       <pre><code>---
 title: 文章标题
 description: 文章摘要，会展示在列表页
-pubDate: 2026-05-03
-category: 成长记录
+pubDate: 2026-05-04
+category: 知识管理
 tags: [博客, 记录]
 draft: false
 ---
 
 这里写正文。</code></pre>
 
-      <h2>浏览器后台</h2>
-      <p>
-        目前还没有独立后台。等博客结构稳定后，可以接入 Decap CMS 或 TinaCMS，让你在网页后台里登录、编辑和发布文章。
-        这一类方案需要配置 GitHub 登录授权，适合作为下一阶段功能。
-      </p>
+      <p>当前分类固定为：<code>知识管理</code>、<code>项目</code>、<code>阅读</code>、<code>生活杂谈</code>。</p>
 
-      <h2>分类规则</h2>
-      <p>当前分类固定为：知识管理、项目、阅读、生活杂谈。新增文章时建议从这四类里选一个。</p>
-      <p>项目里也放了一份模板：<code>src/content/blog/_template.md</code>。复制它并把 <code>draft</code> 改成 <code>false</code> 就可以发布。</p>
+      <h2>二、添加照片或视频</h2>
+      <p>照片墙页面在 <code>src/pages/gallery.astro</code>，媒体文件建议放到 <code>public/gallery/</code>。</p>
+
+      <ol>
+        <li>把图片或视频上传到 <code>public/gallery/</code>。</li>
+        <li>打开 <code>src/pages/gallery.astro</code>。</li>
+        <li>在 <code>galleryItems</code> 数组里新增一项。</li>
+      </ol>
+
+      <h3>图片示例</h3>
+      <pre><code>{imageExample}</code></pre>
+
+      <h3>视频示例</h3>
+      <pre><code>{videoExample}</code></pre>
+
+      <p>建议图片控制在 1MB 左右，视频尽量压缩后再上传，避免页面加载太慢。</p>
+
+      <h2>三、添加附件</h2>
+      <p>附件适合放 PDF、Word、PPT、压缩包、数据文件等。建议统一放到 <code>public/attachments/</code>。</p>
+
+      <ol>
+        <li>把附件上传到 <code>public/attachments/</code>。</li>
+        <li>在文章 Markdown 中用普通链接引用。</li>
+      </ol>
+
+      <h3>附件链接示例</h3>
+      <pre><code>[下载项目说明 PDF](/attachments/project-note.pdf)
+
+[下载阅读笔记压缩包](/attachments/reading-notes.zip)</code></pre>
+
+      <p>如果后续网站绑定到 <code>hututu1226.top</code>，上面的链接会变成：</p>
+
+      <pre><code>https://hututu1226.top/attachments/project-note.pdf</code></pre>
+
+      <h2>四、发布流程</h2>
+      <p>无论是新增文章、照片还是附件，提交到 GitHub 后，EdgeOne Pages 会重新构建并发布网站。</p>
+
+      <pre><code>修改内容
+  -> 提交到 GitHub main 分支
+  -> EdgeOne Pages 自动构建
+  -> 网站更新</code></pre>
     </div>
   </section>
 </BaseLayout>

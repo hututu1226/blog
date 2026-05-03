@@ -15,20 +15,15 @@ npm run dev
 http://127.0.0.1:4321/
 ```
 
+## 内容目录
+
+```text
+src/content/blog/      博客文章 Markdown
+public/gallery/        照片墙图片和视频
+public/attachments/    PDF、Word、PPT、压缩包等附件
+```
+
 ## 新增文章
-
-推荐两种方式。
-
-### 在 GitHub 网页新增
-
-1. 打开仓库 `hututu1226/blog`
-2. 进入 `src/content/blog`
-3. 复制 `_template.md` 的结构
-4. 点击 `Add file -> Create new file`
-5. 新建一个 `.md` 文件
-6. 提交后部署平台会自动构建更新
-
-### 在本地新增
 
 在 `src/content/blog/` 下新增 Markdown 文件，并填写 frontmatter：
 
@@ -36,7 +31,7 @@ http://127.0.0.1:4321/
 ---
 title: 文章标题
 description: 文章摘要
-pubDate: 2026-05-03
+pubDate: 2026-05-04
 category: 知识管理
 tags: [博客, 记录]
 draft: false
@@ -46,6 +41,32 @@ draft: false
 ```
 
 当前分类建议使用：`知识管理`、`项目`、`阅读`、`生活杂谈`。
+
+## 新增照片或视频
+
+1. 把文件放到 `public/gallery/`
+2. 打开 `src/pages/gallery.astro`
+3. 在 `galleryItems` 数组里新增一项
+
+```js
+{
+  type: 'image',
+  src: '/gallery/photo.jpg',
+  title: '照片标题',
+  description: '照片描述'
+}
+```
+
+视频把 `type` 改成 `video`，`src` 指向 `.mp4` 文件。
+
+## 添加附件
+
+1. 把附件放到 `public/attachments/`
+2. 在文章里用 Markdown 链接引用
+
+```md
+[下载附件](/attachments/file.pdf)
+```
 
 ## EdgeOne Pages 部署参数
 
