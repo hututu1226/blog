@@ -1,0 +1,48 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { withBase } from '../lib/site';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+const categories = [...new Set(posts.map((post) => post.data.category))];
+const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+---
+
+<BaseLayout>
+  <section class="site-shell hero">
+    <div>
+      <h1>记录每天一点点的输入、实践和复盘。</h1>
+      <p>
+        这里会放学习笔记、项目记录、技术踩坑和生活观察。先把写作链路跑通，再慢慢把它打磨成真正属于自己的长期主页。
+      </p>
+    </div>
+    <aside class="hero-panel">
+      <strong>hututu1226</strong>
+      <br />
+      一个持续更新的个人博客，从 GitHub Pages 第一版开始。
+    </aside>
+  </section>
+
+  <section class="site-shell content-grid">
+    <div>
+      <h2 class="section-title">最新文章</h2>
+      <div class="post-list">
+        {posts.map((post) => <PostCard post={post} />)}
+      </div>
+    </div>
+    <aside class="sidebar">
+      <h2>分类</h2>
+      <div class="tag-list">
+        {categories.map((category) => <a class="tag" href={withBase(`/categories/${encodeURIComponent(category)}/`)}>{category}</a>)}
+      </div>
+      <h2 style="margin-top: 1.5rem;">标签</h2>
+      <div class="tag-list">
+        {tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>{tag}</a>)}
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

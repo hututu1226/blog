@@ -1,0 +1,31 @@
+---
+import { siteName, withBase } from '../lib/site';
+
+const links = [
+  { href: withBase('/'), label: '首页' },
+  { href: withBase('/archives/'), label: '归档' },
+  { href: withBase('/categories/'), label: '分类' },
+  { href: withBase('/tags/'), label: '标签' },
+  { href: withBase('/about/'), label: '关于' }
+];
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="site-shell nav">
+    <a class="brand" href={withBase('/')} aria-label={`${siteName} 首页`}>
+      <span class="brand-title">{siteName}</span>
+      <span class="brand-mark">hututu1226</span>
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      {
+        links.map((link) => (
+          <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+            {link.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

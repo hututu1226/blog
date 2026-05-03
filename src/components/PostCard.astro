@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { postUrl } from '../lib/posts';
+import { withBase } from '../lib/site';
+
+type Props = {
+  post: CollectionEntry<'blog'>;
+};
+
+const { post } = Astro.props;
+const date = post.data.pubDate.toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+---
+
+<article class="post-card">
+  <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
+  <p>{post.data.description}</p>
+  <div class="meta">
+    <time datetime={post.data.pubDate.toISOString()}>{date}</time>
+    <a href={withBase(`/categories/${encodeURIComponent(post.data.category)}/`)}>{post.data.category}</a>
+  </div>
+  <div class="tag-list" aria-label="标签">
+    {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>{tag}</a>)}
+  </div>
+</article>

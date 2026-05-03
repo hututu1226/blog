@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../lib/site';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const categories = [...new Set(posts.map((post) => post.data.category))].sort((a, b) =>
+  a.localeCompare(b, 'zh-CN')
+);
+---
+
+<BaseLayout title="分类" description="按主题分类浏览文章。">
+  <section class="site-shell page">
+    <header class="page-header">
+      <h1>分类</h1>
+      <p>用主题组织文章，方便回看同一方向的积累。</p>
+    </header>
+    <div class="tag-list">
+      {categories.map((category) => <a class="tag" href={withBase(`/categories/${encodeURIComponent(category)}/`)}>{category}</a>)}
+    </div>
+  </section>
+</BaseLayout>
