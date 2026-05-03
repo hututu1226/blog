@@ -1,23 +1,41 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import MascotIcon from '../components/MascotIcon.astro';
 ---
 
 <BaseLayout title="关于" description="关于 hututu1226 和这个博客。">
-  <section class="site-shell page">
-    <header class="page-header">
-      <h1>关于</h1>
-      <p>这里是 hututu1226 的个人博客：每天进步一点点。</p>
+  <section class="site-shell page about-page">
+    <header class="page-header about-header">
+      <div>
+        <span class="eyebrow">About</span>
+        <h1>关于 hututu1226</h1>
+        <p>这里是“每天进步一点点”的个人介绍页，先放一个清晰的骨架，后续可以继续换成更具体的内容。</p>
+      </div>
+      <MascotIcon />
     </header>
-    <div class="article-body" style="max-width: 760px;">
-      <p>
-        这个博客会用来记录学习、项目、阅读和生活里的思考。第一版先保持简单，重点是让内容能稳定发布、长期积累。
-      </p>
-      <p>
-        之后可以继续补充个人简介、头像、联系方式、友情链接、评论系统、访问统计和独立域名。
-      </p>
-      <p>
-        GitHub：<a href="https://github.com/hututu1226">hututu1226</a>
-      </p>
+
+    <div class="about-grid">
+      <section>
+        <h2>我会在这里写什么</h2>
+        <p>
+          这个博客会记录学习笔记、项目复盘、工具使用、阅读感想和生活观察。它不是一次性做完的展示页，而是一个持续更新的个人知识库。
+        </p>
+      </section>
+      <section>
+        <h2>当前关注</h2>
+        <ul>
+          <li>把复杂问题拆成可执行的小步骤</li>
+          <li>记录真实项目里的判断和取舍</li>
+          <li>养成稳定写作和复盘的习惯</li>
+        </ul>
+      </section>
+      <section>
+        <h2>联系</h2>
+        <p>
+          GitHub：<a href="https://github.com/hututu1226">hututu1226</a>
+        </p>
+        <p>邮箱、社交账号和友情链接可以后续补充。</p>
+      </section>
     </div>
   </section>
 </BaseLayout>

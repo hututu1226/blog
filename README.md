@@ -17,6 +17,18 @@ http://127.0.0.1:4321/blog/
 
 ## 新增文章
 
+推荐两种方式。
+
+### 在 GitHub 网页新增
+
+1. 打开仓库 `hututu1226/blog`
+2. 进入 `src/content/blog`
+3. 点击 `Add file -> Create new file`
+4. 新建一个 `.md` 文件
+5. 提交后 GitHub Actions 会自动部署
+
+### 在本地新增
+
 在 `src/content/blog/` 下新增 Markdown 文件，并填写 frontmatter：
 
 ```md

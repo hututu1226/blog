@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from 'astro:content';
-import { postUrl } from '../lib/posts';
+import { postExcerpt, postUrl } from '../lib/posts';
 import { withBase } from '../lib/site';
 
 type Props = {
@@ -17,7 +17,7 @@ const date = post.data.pubDate.toLocaleDateString('zh-CN', {
 
 <article class="post-card">
   <h2><a href={postUrl(post)}>{post.data.title}</a></h2>
-  <p>{post.data.description}</p>
+  <p>{postExcerpt(post)}</p>
   <div class="meta">
     <time datetime={post.data.pubDate.toISOString()}>{date}</time>
     <a href={withBase(`/categories/${encodeURIComponent(post.data.category)}/`)}>{post.data.category}</a>

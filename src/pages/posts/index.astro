@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="博客" description="按时间倒序浏览全部博客文章。">
+  <section class="site-shell page">
+    <header class="page-header">
+      <span class="eyebrow">Blog</span>
+      <h1>博客内容</h1>
+      <p>按时间从近到远展示每篇文章的标题、摘要、日期和分类。</p>
+    </header>
+    <div class="post-list">
+      {posts.map((post) => <PostCard post={post} />)}
+    </div>
+  </section>
+</BaseLayout>

@@ -3,13 +3,17 @@ import { siteName, withBase } from '../lib/site';
 
 const links = [
   { href: withBase('/'), label: '首页' },
-  { href: withBase('/archives/'), label: '归档' },
+  { href: withBase('/posts/'), label: '博客' },
   { href: withBase('/categories/'), label: '分类' },
-  { href: withBase('/tags/'), label: '标签' },
   { href: withBase('/about/'), label: '关于' }
 ];
 
 const currentPath = Astro.url.pathname;
+
+function isActive(href: string) {
+  if (href === withBase('/')) return currentPath === href;
+  return currentPath === href || currentPath.startsWith(href);
+}
 ---
 
 <header class="site-header">
@@ -21,7 +25,7 @@ const currentPath = Astro.url.pathname;
     <nav class="nav-links" aria-label="主导航">
       {
         links.map((link) => (
-          <a href={link.href} aria-current={currentPath === link.href ? 'page' : undefined}>
+          <a href={link.href} aria-current={isActive(link.href) ? 'page' : undefined}>
             {link.label}
           </a>
         ))

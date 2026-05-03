@@ -8,3 +8,12 @@ export function postSlug(post: CollectionEntry<'blog'>) {
 export function postUrl(post: CollectionEntry<'blog'>) {
   return withBase(`/posts/${postSlug(post)}/`);
 }
+
+export function postExcerpt(post: CollectionEntry<'blog'>) {
+  const firstParagraph = (post.body ?? '')
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .find((block) => block && !block.startsWith('#') && !block.startsWith('```'));
+
+  return firstParagraph?.replace(/\s+/g, ' ').slice(0, 120) || post.data.description;
+}

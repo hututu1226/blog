@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="写作指南" description="如何给博客新增文章。">
+  <section class="site-shell page">
+    <header class="page-header">
+      <span class="eyebrow">Writing</span>
+      <h1>如何新增博客</h1>
+      <p>当前最稳的方式是使用 Markdown 写文章，然后通过 GitHub 自动部署。</p>
+    </header>
+
+    <div class="article-body writing-guide">
+      <h2>方式一：在 GitHub 网页里直接新增</h2>
+      <ol>
+        <li>打开仓库 <a href="https://github.com/hututu1226/blog">hututu1226/blog</a>。</li>
+        <li>进入 <code>src/content/blog</code> 目录。</li>
+        <li>点击 <code>Add file</code>，选择 <code>Create new file</code>。</li>
+        <li>文件名建议写成 <code>2026-05-03-my-post.md</code> 这种格式。</li>
+        <li>写完后点击 <code>Commit changes</code>，GitHub Actions 会自动更新网站。</li>
+      </ol>
+
+      <h2>方式二：在本地项目里新增</h2>
+      <p>在 <code>D:\个人blog\src\content\blog</code> 下新增一个 <code>.md</code> 文件，格式如下：</p>
+
+      <pre><code>---
+title: 文章标题
+description: 文章摘要，会展示在列表页
+pubDate: 2026-05-03
+category: 成长记录
+tags: [博客, 记录]
+draft: false
+---
+
+这里写正文。</code></pre>
+
+      <h2>浏览器后台</h2>
+      <p>
+        目前还没有独立后台。等博客结构稳定后，可以接入 Decap CMS 或 TinaCMS，让你在网页后台里登录、编辑和发布文章。
+        这一类方案需要配置 GitHub 登录授权，适合作为下一阶段功能。
+      </p>
+    </div>
+  </section>
+</BaseLayout>

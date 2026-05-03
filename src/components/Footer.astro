@@ -1,5 +1,10 @@
+---
+import { withBase } from '../lib/site';
+---
+
 <footer class="site-footer">
   <div class="site-shell">
     <span>© {new Date().getFullYear()} 每天进步一点点 · Built with Astro</span>
+    <a href={withBase('/writing/')}>写作指南</a>
   </div>
 </footer>

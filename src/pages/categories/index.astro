@@ -1,22 +1,61 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { postUrl } from '../../lib/posts';
 import { withBase } from '../../lib/site';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const categories = [...new Set(posts.map((post) => post.data.category))].sort((a, b) =>
-  a.localeCompare(b, 'zh-CN')
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
+
+const categories = [...new Set(posts.map((post) => post.data.category))]
+  .sort((a, b) => a.localeCompare(b, 'zh-CN'))
+  .map((category) => ({
+    name: category,
+    posts: posts.filter((post) => post.data.category === category)
+  }));
 ---
 
-<BaseLayout title="分类" description="按主题分类浏览文章。">
+<BaseLayout title="分类" description="按主题分类浏览博客文章。">
   <section class="site-shell page">
     <header class="page-header">
-      <h1>分类</h1>
-      <p>用主题组织文章，方便回看同一方向的积累。</p>
+      <span class="eyebrow">Categories</span>
+      <h1>博客分类</h1>
+      <p>按主题组织文章，方便回看同一方向的积累。</p>
     </header>
-    <div class="tag-list">
-      {categories.map((category) => <a class="tag" href={withBase(`/categories/${encodeURIComponent(category)}/`)}>{category}</a>)}
+
+    <div class="category-overview">
+      {
+        categories.map((category) => (
+          <a class="category-tile" href={withBase(`/categories/${encodeURIComponent(category.name)}/`)}>
+            <strong>{category.name}</strong>
+            <span>{category.posts.length} 篇文章</span>
+          </a>
+        ))
+      }
+    </div>
+
+    <div class="category-sections">
+      {
+        categories.map((category) => (
+          <section class="category-section">
+            <div class="category-section-header">
+              <h2>{category.name}</h2>
+              <a href={withBase(`/categories/${encodeURIComponent(category.name)}/`)}>进入分类</a>
+            </div>
+            <div class="archive-list">
+              {category.posts.map((post) => (
+                <article class="archive-item">
+                  <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                    {post.data.pubDate.toLocaleDateString('zh-CN')}
+                  </time>
+                  <a href={postUrl(post)}>{post.data.title}</a>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))
+      }
     </div>
   </section>
 </BaseLayout>
