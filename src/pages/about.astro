@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import MascotIcon from '../components/MascotIcon.astro';
+import { withBase } from '../lib/site';
 ---
 
 <BaseLayout title="关于" description="关于 hututu1226 和这个博客。">
@@ -11,7 +11,7 @@ import MascotIcon from '../components/MascotIcon.astro';
         <h1>关于 hututu1226</h1>
         <p>这里是“每天进步一点点”的个人介绍页，先放一个清晰的骨架，后续可以继续换成更具体的内容。</p>
       </div>
-      <MascotIcon />
+      <img class="brand-avatar about-avatar" src={withBase('/hututu.jpg')} alt="hututu1226 头像" />
     </header>
 
     <div class="about-grid">

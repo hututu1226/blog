@@ -5,7 +5,7 @@ import PostCard from '../../components/PostCard.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  const categories = [...new Set(posts.map((post) => post.data.category))];
+  const categories = ['知识管理', '项目', '阅读', '生活杂谈'];
   return categories.map((category) => ({
     params: { category },
     props: {
@@ -27,7 +27,7 @@ const { category, posts } = Astro.props;
       <p>这个分类下共有 {posts.length} 篇文章。</p>
     </header>
     <div class="post-list">
-      {posts.map((post) => <PostCard post={post} />)}
+      {posts.length > 0 ? posts.map((post) => <PostCard post={post} />) : <p class="empty-note">这个分类还没有文章。</p>}
     </div>
   </section>
 </BaseLayout>

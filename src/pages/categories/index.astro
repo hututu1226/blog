@@ -8,12 +8,11 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
 );
 
-const categories = [...new Set(posts.map((post) => post.data.category))]
-  .sort((a, b) => a.localeCompare(b, 'zh-CN'))
-  .map((category) => ({
-    name: category,
-    posts: posts.filter((post) => post.data.category === category)
-  }));
+const categoryNames = ['知识管理', '项目', '阅读', '生活杂谈'];
+const categories = categoryNames.map((category) => ({
+  name: category,
+  posts: posts.filter((post) => post.data.category === category)
+}));
 ---
 
 <BaseLayout title="分类" description="按主题分类浏览博客文章。">
@@ -44,14 +43,20 @@ const categories = [...new Set(posts.map((post) => post.data.category))]
               <a href={withBase(`/categories/${encodeURIComponent(category.name)}/`)}>进入分类</a>
             </div>
             <div class="archive-list">
-              {category.posts.map((post) => (
-                <article class="archive-item">
-                  <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
-                    {post.data.pubDate.toLocaleDateString('zh-CN')}
-                  </time>
-                  <a href={postUrl(post)}>{post.data.title}</a>
-                </article>
-              ))}
+              {
+                category.posts.length > 0 ? (
+                  category.posts.map((post) => (
+                    <article class="archive-item">
+                      <time class="archive-date" datetime={post.data.pubDate.toISOString()}>
+                        {post.data.pubDate.toLocaleDateString('zh-CN')}
+                      </time>
+                      <a href={postUrl(post)}>{post.data.title}</a>
+                    </article>
+                  ))
+                ) : (
+                  <p class="empty-note">这个分类还没有文章。</p>
+                )
+              }
             </div>
           </section>
         ))

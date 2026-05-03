@@ -1,5 +1,5 @@
 ---
-import { siteName, withBase } from '../lib/site';
+import { withBase } from '../lib/site';
 
 const links = [
   { href: withBase('/'), label: '首页' },
@@ -18,9 +18,9 @@ function isActive(href: string) {
 
 <header class="site-header">
   <div class="site-shell nav">
-    <a class="brand" href={withBase('/')} aria-label={`${siteName} 首页`}>
-      <span class="brand-title">{siteName}</span>
-      <span class="brand-mark">hututu1226</span>
+    <a class="brand" href={withBase('/')} aria-label="hututu1226 首页">
+      <img class="brand-avatar" src={withBase('/hututu.jpg')} alt="hututu1226 头像" />
+      <span class="brand-title">hututu1226</span>
     </a>
     <nav class="nav-links" aria-label="主导航">
       {

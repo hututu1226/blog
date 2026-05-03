@@ -2,7 +2,7 @@
 title: 第一篇博客
 description: 从这里开始记录每天一点点的进步。
 pubDate: 2026-05-03
-category: 成长记录
+category: 生活杂谈
 tags: [开始, 博客]
 draft: false
 ---

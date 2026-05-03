@@ -2,7 +2,7 @@
 title: 为什么先用 GitHub Pages 搭博客
 description: 第一版先把写作链路跑通，再逐步加入独立域名和更多功能。
 pubDate: 2026-05-03
-category: 建站记录
+category: 项目
 tags: [Astro, GitHub Pages, 博客]
 draft: false
 ---
