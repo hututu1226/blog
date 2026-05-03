@@ -530,6 +530,60 @@ pre code {
   padding-left: 1.1rem;
 }
 
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-card {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(16, 23, 34, 0.8);
+  box-shadow: var(--shadow);
+}
+
+.gallery-card img,
+.gallery-card video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--surface-soft);
+}
+
+.gallery-card div {
+  padding: 1rem;
+}
+
+.gallery-card h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.gallery-card p {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+}
+
+.gallery-note {
+  margin-top: 2rem;
+  border-top: 1px solid var(--line);
+  padding-top: 1.4rem;
+}
+
+.gallery-note h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.1rem;
+}
+
+.gallery-note p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+}
+
 .site-footer {
   border-top: 1px solid var(--line);
   padding: 2rem 0;

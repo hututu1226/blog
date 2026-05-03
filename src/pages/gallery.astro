@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/site';
+
+const galleryItems = [
+  {
+    type: 'image',
+    src: '/hero-mountain.jpg',
+    title: '雪山',
+    description: '作为博客首页的第一张照片，先用它记录一个冷静、开阔的起点。'
+  },
+  {
+    type: 'image',
+    src: '/hututu.jpg',
+    title: '胡图图头像',
+    description: '博客当前使用的头像，也可以作为照片墙的第一张人物图。'
+  }
+];
+---
+
+<BaseLayout title="照片墙" description="照片、视频和生活瞬间的集合。">
+  <section class="site-shell page">
+    <header class="page-header">
+      <span class="eyebrow">Gallery</span>
+      <h1>照片墙</h1>
+      <p>这里可以放照片、视频和一小段描述，用来记录生活中的美好瞬间。</p>
+    </header>
+
+    <div class="gallery-grid">
+      {
+        galleryItems.map((item) => (
+          <article class="gallery-card">
+            {
+              item.type === 'image' ? (
+                <img src={withBase(item.src)} alt={item.title} loading="lazy" />
+              ) : (
+                <video src={withBase(item.src)} controls preload="metadata" />
+              )
+            }
+            <div>
+              <h2>{item.title}</h2>
+              <p>{item.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <section class="gallery-note">
+      <h2>如何添加照片或视频</h2>
+      <p>后续可以把图片或视频放到 <code>public/gallery/</code> 目录，再在这个页面的 <code>galleryItems</code> 数组里添加标题、文件路径和描述。</p>
+    </section>
+  </section>
+</BaseLayout>
