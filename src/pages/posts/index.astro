@@ -13,7 +13,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
     <header class="page-header">
       <span class="eyebrow">Blog</span>
       <h1>博客内容</h1>
-      <p>按时间从近到远展示每篇文章的标题、摘要、日期和分类。</p>
+      <p>按时间从近到远展示文章。现在先围绕知识管理、项目、阅读和生活杂谈四个方向沉淀内容。</p>
     </header>
     <div class="post-list">
       {posts.map((post) => <PostCard post={post} />)}

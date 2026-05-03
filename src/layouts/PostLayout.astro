@@ -31,5 +31,9 @@ const date = post.data.pubDate.toLocaleDateString('zh-CN', {
     <div class="article-body">
       <slot />
     </div>
+    <footer class="article-actions">
+      <a href={withBase('/posts/')}>返回博客列表</a>
+      <a href={withBase('/writing/')}>查看写作指南</a>
+    </footer>
   </article>
 </BaseLayout>
