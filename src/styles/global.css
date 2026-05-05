@@ -451,6 +451,15 @@ main {
   font-size: 1.04rem;
 }
 
+.article-body img {
+  display: block;
+  max-width: min(100%, 720px);
+  margin: 1.5rem auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
 .article-body h2 {
   margin-top: 2.4rem;
   line-height: 1.3;
