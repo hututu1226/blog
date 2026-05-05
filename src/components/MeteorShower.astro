@@ -1,0 +1,92 @@
+<canvas class="meteor-canvas" id="meteor-canvas" aria-hidden="true"></canvas>
+
+<script>
+  const canvas = document.querySelector('#meteor-canvas') as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canvas && ctx && !reduceMotion) {
+    const meteorCanvas = canvas;
+    const context = ctx;
+    const meteors: Array<{
+      x: number;
+      y: number;
+      length: number;
+      speed: number;
+      alpha: number;
+      delay: number;
+    }> = [];
+
+    function resize() {
+      const ratio = window.devicePixelRatio || 1;
+      meteorCanvas.width = Math.floor(window.innerWidth * ratio);
+      meteorCanvas.height = Math.floor(window.innerHeight * ratio);
+      meteorCanvas.style.width = `${window.innerWidth}px`;
+      meteorCanvas.style.height = `${window.innerHeight}px`;
+      context.setTransform(ratio, 0, 0, ratio, 0, 0);
+    }
+
+    function resetMeteor(meteor: (typeof meteors)[number]) {
+      meteor.x = Math.random() * window.innerWidth + window.innerWidth * 0.2;
+      meteor.y = Math.random() * window.innerHeight * 0.55 - window.innerHeight * 0.1;
+      meteor.length = 120 + Math.random() * 150;
+      meteor.speed = 4 + Math.random() * 3;
+      meteor.alpha = 0.12 + Math.random() * 0.18;
+      meteor.delay = Math.random() * 220;
+    }
+
+    function seed() {
+      meteors.length = 0;
+      const count = Math.max(5, Math.min(10, Math.floor(window.innerWidth / 180)));
+      for (let index = 0; index < count; index += 1) {
+        const meteor = { x: 0, y: 0, length: 0, speed: 0, alpha: 0, delay: 0 };
+        resetMeteor(meteor);
+        meteor.delay = index * 80 + Math.random() * 180;
+        meteors.push(meteor);
+      }
+    }
+
+    function draw() {
+      context.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+      for (const meteor of meteors) {
+        if (meteor.delay > 0) {
+          meteor.delay -= 1;
+          continue;
+        }
+
+        const endX = meteor.x - meteor.length;
+        const endY = meteor.y + meteor.length * 0.42;
+        const gradient = context.createLinearGradient(meteor.x, meteor.y, endX, endY);
+        gradient.addColorStop(0, `rgba(255, 255, 255, ${meteor.alpha})`);
+        gradient.addColorStop(0.18, `rgba(142, 230, 208, ${meteor.alpha * 0.85})`);
+        gradient.addColorStop(1, 'rgba(142, 230, 208, 0)');
+
+        context.strokeStyle = gradient;
+        context.lineWidth = 1;
+        context.beginPath();
+        context.moveTo(meteor.x, meteor.y);
+        context.lineTo(endX, endY);
+        context.stroke();
+
+        meteor.x -= meteor.speed;
+        meteor.y += meteor.speed * 0.42;
+
+        if (meteor.x < -meteor.length || meteor.y > window.innerHeight + meteor.length) {
+          resetMeteor(meteor);
+          meteor.delay = 180 + Math.random() * 360;
+        }
+      }
+
+      requestAnimationFrame(draw);
+    }
+
+    resize();
+    seed();
+    draw();
+    window.addEventListener('resize', () => {
+      resize();
+      seed();
+    });
+  }
+</script>

@@ -25,7 +25,15 @@ public/attachments/    PDF、Word、PPT、压缩包等附件
 
 ## 新增文章
 
-在 `src/content/blog/` 下新增 Markdown 文件，并填写 frontmatter：
+推荐使用脚本：
+
+```bash
+npm run new:post
+```
+
+脚本会自动在 `src/content/blog/` 下创建文章文件。
+
+也可以手工在 `src/content/blog/` 下新增 Markdown 文件，并填写 frontmatter：
 
 ```md
 ---
@@ -44,9 +52,19 @@ draft: false
 
 ## 新增照片或视频
 
+推荐使用脚本：
+
+```bash
+npm run new:gallery
+```
+
+脚本会复制媒体文件到 `public/gallery/`，并自动更新 `src/data/gallery.json`。
+
+也可以手工操作：
+
 1. 把文件放到 `public/gallery/`
-2. 打开 `src/pages/gallery.astro`
-3. 在 `galleryItems` 数组里新增一项
+2. 打开 `src/data/gallery.json`
+3. 在数组里新增一项
 
 ```js
 {

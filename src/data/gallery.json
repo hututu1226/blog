@@ -1,0 +1,14 @@
+[
+  {
+    "type": "image",
+    "src": "/hero-mountain.jpg",
+    "title": "雪山",
+    "description": "作为博客首页的第一张照片，先用它记录一个冷静、开阔的起点。"
+  },
+  {
+    "type": "image",
+    "src": "/hututu.jpg",
+    "title": "胡图图头像",
+    "description": "博客当前使用的头像，也可以作为照片墙的第一张人物图。"
+  }
+]

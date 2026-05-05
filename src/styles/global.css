@@ -80,6 +80,21 @@ pre code {
   margin: 0 auto;
 }
 
+.meteor-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;
