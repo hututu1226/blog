@@ -18,7 +18,16 @@ import galleryItems from '../data/gallery.json';
           <article class="gallery-card">
             {
               item.type === 'image' ? (
-                <img src={withBase(item.src)} alt={item.title} loading="lazy" />
+                <button
+                  class="gallery-open"
+                  type="button"
+                  data-full-src={withBase(item.src)}
+                  data-title={item.title}
+                  data-description={item.description}
+                  aria-label={`放大查看 ${item.title}`}
+                >
+                  <img src={withBase(item.src)} alt={item.title} loading="lazy" />
+                </button>
               ) : (
                 <video src={withBase(item.src)} controls preload="metadata" />
               )
@@ -37,4 +46,60 @@ import galleryItems from '../data/gallery.json';
       <p>把图片或视频放到 <code>public/gallery/</code> 目录，再在 <code>src/data/gallery.json</code> 里添加标题、文件路径和描述。也可以使用 <code>npm run new:gallery</code> 快速导入。</p>
     </section>
   </section>
+
+  <div class="gallery-lightbox" id="gallery-lightbox" aria-hidden="true">
+    <button class="gallery-lightbox-backdrop" type="button" aria-label="关闭图片预览"></button>
+    <figure class="gallery-lightbox-content" role="dialog" aria-modal="true" aria-label="图片预览">
+      <button class="gallery-lightbox-close" type="button" aria-label="关闭图片预览">×</button>
+      <img id="gallery-lightbox-image" alt="" />
+      <figcaption>
+        <strong id="gallery-lightbox-title"></strong>
+        <span id="gallery-lightbox-description"></span>
+      </figcaption>
+    </figure>
+  </div>
 </BaseLayout>
+
+<script>
+  const lightbox = document.querySelector('#gallery-lightbox');
+  const lightboxImage = document.querySelector('#gallery-lightbox-image') as HTMLImageElement | null;
+  const lightboxTitle = document.querySelector('#gallery-lightbox-title');
+  const lightboxDescription = document.querySelector('#gallery-lightbox-description');
+  const openButtons = document.querySelectorAll<HTMLButtonElement>('.gallery-open');
+  const closeButtons = document.querySelectorAll('.gallery-lightbox-close, .gallery-lightbox-backdrop');
+
+  function openLightbox(button: HTMLButtonElement) {
+    if (!lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription) return;
+
+    const src = button.dataset.fullSrc || '';
+    const title = button.dataset.title || '';
+    const description = button.dataset.description || '';
+
+    lightboxImage.src = src;
+    lightboxImage.alt = title;
+    lightboxTitle.textContent = title;
+    lightboxDescription.textContent = description;
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('lightbox-open');
+  }
+
+  function closeLightbox() {
+    if (!lightbox || !lightboxImage) return;
+
+    lightbox.setAttribute('aria-hidden', 'true');
+    lightboxImage.removeAttribute('src');
+    document.documentElement.classList.remove('lightbox-open');
+  }
+
+  openButtons.forEach((button) => {
+    button.addEventListener('click', () => openLightbox(button));
+  });
+
+  closeButtons.forEach((button) => {
+    button.addEventListener('click', closeLightbox);
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeLightbox();
+  });
+</script>
