@@ -32,16 +32,16 @@
       meteor.length = 150 + Math.random() * 190;
       meteor.speed = 4.8 + Math.random() * 4;
       meteor.alpha = 0.26 + Math.random() * 0.24;
-      meteor.delay = Math.random() * 160;
+      meteor.delay = Math.random() * 105;
     }
 
     function seed() {
       meteors.length = 0;
-      const count = Math.max(9, Math.min(16, Math.floor(window.innerWidth / 130)));
+      const count = Math.max(14, Math.min(24, Math.floor(window.innerWidth / 86)));
       for (let index = 0; index < count; index += 1) {
         const meteor = { x: 0, y: 0, length: 0, speed: 0, alpha: 0, delay: 0 };
         resetMeteor(meteor);
-        meteor.delay = index * 80 + Math.random() * 180;
+        meteor.delay = index * 52 + Math.random() * 120;
         meteors.push(meteor);
       }
     }
@@ -74,7 +74,7 @@
 
         if (meteor.x < -meteor.length || meteor.y > window.innerHeight + meteor.length) {
           resetMeteor(meteor);
-          meteor.delay = 90 + Math.random() * 220;
+          meteor.delay = 60 + Math.random() * 145;
         }
       }
 
