@@ -92,7 +92,7 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
   let startTranslateX = 0;
   let startTranslateY = 0;
   let isDragging = false;
-  const dragSensitivity = 10;
+  const dragSensitivity = 50;
 
   function applyImageTransform() {
     if (!lightboxImage) return;
@@ -167,7 +167,8 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
   });
 
   lightboxImage?.addEventListener('pointerdown', (event) => {
-    if (event.button !== 0) return;
+    if (event.button !== 2) return;
+    event.preventDefault();
     isDragging = true;
     dragStartX = event.clientX;
     dragStartY = event.clientY;
@@ -179,6 +180,7 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
 
   lightboxImage?.addEventListener('pointermove', (event) => {
     if (!isDragging) return;
+    event.preventDefault();
     translateX = startTranslateX + (event.clientX - dragStartX) * dragSensitivity;
     translateY = startTranslateY + (event.clientY - dragStartY) * dragSensitivity;
     applyImageTransform();
@@ -192,6 +194,9 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
   lightboxImage?.addEventListener('pointerup', stopDragging);
   lightboxImage?.addEventListener('pointercancel', stopDragging);
   lightboxImage?.addEventListener('lostpointercapture', stopDragging);
+  lightboxImage?.addEventListener('contextmenu', (event) => {
+    event.preventDefault();
+  });
 
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeLightbox();
