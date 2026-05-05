@@ -28,16 +28,16 @@
 
     function resetMeteor(meteor: (typeof meteors)[number]) {
       meteor.x = Math.random() * window.innerWidth + window.innerWidth * 0.2;
-      meteor.y = Math.random() * window.innerHeight * 0.55 - window.innerHeight * 0.1;
-      meteor.length = 120 + Math.random() * 150;
-      meteor.speed = 4 + Math.random() * 3;
-      meteor.alpha = 0.12 + Math.random() * 0.18;
-      meteor.delay = Math.random() * 220;
+      meteor.y = Math.random() * window.innerHeight * 0.75 - window.innerHeight * 0.12;
+      meteor.length = 150 + Math.random() * 190;
+      meteor.speed = 4.8 + Math.random() * 4;
+      meteor.alpha = 0.26 + Math.random() * 0.24;
+      meteor.delay = Math.random() * 160;
     }
 
     function seed() {
       meteors.length = 0;
-      const count = Math.max(5, Math.min(10, Math.floor(window.innerWidth / 180)));
+      const count = Math.max(9, Math.min(16, Math.floor(window.innerWidth / 130)));
       for (let index = 0; index < count; index += 1) {
         const meteor = { x: 0, y: 0, length: 0, speed: 0, alpha: 0, delay: 0 };
         resetMeteor(meteor);
@@ -63,7 +63,7 @@
         gradient.addColorStop(1, 'rgba(142, 230, 208, 0)');
 
         context.strokeStyle = gradient;
-        context.lineWidth = 1;
+        context.lineWidth = 1.35;
         context.beginPath();
         context.moveTo(meteor.x, meteor.y);
         context.lineTo(endX, endY);
@@ -74,7 +74,7 @@
 
         if (meteor.x < -meteor.length || meteor.y > window.innerHeight + meteor.length) {
           resetMeteor(meteor);
-          meteor.delay = 180 + Math.random() * 360;
+          meteor.delay = 90 + Math.random() * 220;
         }
       }
 

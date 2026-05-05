@@ -83,14 +83,19 @@ pre code {
 .meteor-canvas {
   position: fixed;
   inset: 0;
-  z-index: 0;
+  z-index: 2;
   pointer-events: none;
-  opacity: 0.75;
+  opacity: 0.92;
+  mix-blend-mode: screen;
 }
 
 .site-header,
-main,
 .site-footer {
+  position: relative;
+  z-index: 3;
+}
+
+main {
   position: relative;
   z-index: 1;
 }
