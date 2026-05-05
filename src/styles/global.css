@@ -491,11 +491,12 @@ main {
   margin-bottom: 0.55rem;
 }
 
-.article-toc ol {
+.article-toc ul {
   display: grid;
   gap: 0.35rem;
   margin: 0;
-  padding-left: 1.2rem;
+  padding-left: 0;
+  list-style: none;
 }
 
 .article-toc a {
@@ -507,9 +508,14 @@ main {
   color: var(--accent-strong);
 }
 
-.toc-child {
+.toc-level-3 {
   margin-left: 1rem;
   font-size: 0.94rem;
+}
+
+.toc-level-4 {
+  margin-left: 2rem;
+  font-size: 0.9rem;
 }
 
 .article-pagination {
@@ -729,23 +735,6 @@ main {
   font-size: 0.82rem;
 }
 
-.gallery-note {
-  margin-top: 2rem;
-  border-top: 1px solid var(--line);
-  padding-top: 1.4rem;
-}
-
-.gallery-note h2 {
-  margin: 0 0 0.45rem;
-  font-size: 1.1rem;
-}
-
-.gallery-note p {
-  max-width: 760px;
-  margin: 0;
-  color: var(--muted);
-}
-
 .gallery-lightbox {
   position: fixed;
   inset: 0;
@@ -777,9 +766,11 @@ main {
 
 .gallery-lightbox-media {
   position: relative;
+  overflow: hidden;
   width: fit-content;
   max-width: 100%;
   margin: 0 auto;
+  border-radius: 8px;
 }
 
 .gallery-lightbox-media img {
@@ -790,6 +781,17 @@ main {
   border-radius: 8px;
   object-fit: contain;
   box-shadow: 0 30px 90px rgba(0, 0, 0, 0.48);
+  cursor: grab;
+  transform-origin: center center;
+  user-select: none;
+  touch-action: none;
+  transition: transform 120ms ease-out;
+  will-change: transform;
+}
+
+.gallery-lightbox-media img.is-dragging {
+  cursor: grabbing;
+  transition: none;
 }
 
 .gallery-lightbox-content figcaption {

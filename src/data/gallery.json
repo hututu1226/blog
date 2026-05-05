@@ -3,16 +3,24 @@
     "type": "image",
     "src": "/hero-mountain.jpg",
     "title": "雪山",
-    "description": "作为博客首页的第一张照片，先用它记录一个冷静、开阔的起点。",
-    "date": "2026-05-05",
+    "description": "作为博客首页的照片，关关难过关关过，前路漫漫亦灿灿。",
+    "date": "2026-05-03",
     "location": "照片墙"
   },
   {
     "type": "image",
     "src": "/hututu.jpg",
     "title": "胡图图头像",
-    "description": "博客当前使用的头像，也可以作为照片墙的第一张人物图。",
-    "date": "2026-05-05",
+    "description": "博客当前使用的头像",
+    "date": "2026-05-03",
     "location": "头像"
+  },
+  {
+    "type": "image",
+    "src": "/harden_shenpan.webp",
+    "title": "审判之投",
+    "description": "2019.01.04 哈登绝杀勇士 登峰造极",
+    "date": "2026-05-05",
+    "location": "照片墙"
   }
 ]

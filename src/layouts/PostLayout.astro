@@ -39,7 +39,7 @@ const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
 
     <nav class="article-toc" id="article-toc" aria-label="文章目录" hidden>
       <strong>目录</strong>
-      <ol id="article-toc-list"></ol>
+      <ul id="article-toc-list"></ul>
     </nav>
 
     <div class="article-body">
@@ -80,7 +80,7 @@ const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
   const toc = document.querySelector('#article-toc') as HTMLElement | null;
   const tocList = document.querySelector('#article-toc-list');
   const headings = article
-    ? Array.from(article.querySelectorAll<HTMLHeadingElement>('h2, h3'))
+    ? Array.from(article.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4'))
     : [];
 
   function slugify(text: string) {
@@ -95,7 +95,7 @@ const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
     headings.forEach((heading, index) => {
       if (!heading.id) heading.id = `${slugify(heading.textContent || 'section')}-${index + 1}`;
       const item = document.createElement('li');
-      if (heading.tagName === 'H3') item.classList.add('toc-child');
+      item.classList.add(`toc-level-${heading.tagName.slice(1)}`);
       const link = document.createElement('a');
       link.href = `#${heading.id}`;
       link.textContent = heading.textContent || '';
