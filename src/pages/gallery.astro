@@ -24,6 +24,9 @@ import galleryItems from '../data/gallery.json';
                   data-full-src={withBase(item.src)}
                   data-title={item.title}
                   data-description={item.description}
+                  data-date={item.date}
+                  data-location={item.location}
+                  data-index={galleryItems.indexOf(item)}
                   aria-label={`放大查看 ${item.title}`}
                 >
                   <img src={withBase(item.src)} alt={item.title} loading="lazy" />
@@ -34,6 +37,9 @@ import galleryItems from '../data/gallery.json';
             }
             <div>
               <h2>{item.title}</h2>
+              <p class="gallery-meta">
+                {[item.date, item.location].filter(Boolean).join(' · ')}
+              </p>
               <p>{item.description}</p>
             </div>
           </article>
@@ -54,8 +60,11 @@ import galleryItems from '../data/gallery.json';
       <img id="gallery-lightbox-image" alt="" />
       <figcaption>
         <strong id="gallery-lightbox-title"></strong>
+        <em id="gallery-lightbox-meta"></em>
         <span id="gallery-lightbox-description"></span>
       </figcaption>
+      <button class="gallery-lightbox-nav gallery-lightbox-prev" type="button" aria-label="上一张">‹</button>
+      <button class="gallery-lightbox-nav gallery-lightbox-next" type="button" aria-label="下一张">›</button>
     </figure>
   </div>
 </BaseLayout>
@@ -64,20 +73,28 @@ import galleryItems from '../data/gallery.json';
   const lightbox = document.querySelector('#gallery-lightbox');
   const lightboxImage = document.querySelector('#gallery-lightbox-image') as HTMLImageElement | null;
   const lightboxTitle = document.querySelector('#gallery-lightbox-title');
+  const lightboxMeta = document.querySelector('#gallery-lightbox-meta');
   const lightboxDescription = document.querySelector('#gallery-lightbox-description');
   const openButtons = document.querySelectorAll<HTMLButtonElement>('.gallery-open');
   const closeButtons = document.querySelectorAll('.gallery-lightbox-close, .gallery-lightbox-backdrop');
+  const prevButton = document.querySelector('.gallery-lightbox-prev');
+  const nextButton = document.querySelector('.gallery-lightbox-next');
+  let currentIndex = 0;
 
-  function openLightbox(button: HTMLButtonElement) {
-    if (!lightbox || !lightboxImage || !lightboxTitle || !lightboxDescription) return;
+  function openLightbox(index: number) {
+    const button = openButtons[index];
+    if (!button || !lightbox || !lightboxImage || !lightboxTitle || !lightboxMeta || !lightboxDescription) return;
 
     const src = button.dataset.fullSrc || '';
     const title = button.dataset.title || '';
     const description = button.dataset.description || '';
+    const meta = [button.dataset.date, button.dataset.location].filter(Boolean).join(' · ');
 
+    currentIndex = index;
     lightboxImage.src = src;
     lightboxImage.alt = title;
     lightboxTitle.textContent = title;
+    lightboxMeta.textContent = meta;
     lightboxDescription.textContent = description;
     lightbox.setAttribute('aria-hidden', 'false');
     document.documentElement.classList.add('lightbox-open');
@@ -92,14 +109,32 @@ import galleryItems from '../data/gallery.json';
   }
 
   openButtons.forEach((button) => {
-    button.addEventListener('click', () => openLightbox(button));
+    button.addEventListener('click', () => openLightbox(Number(button.dataset.index || 0)));
   });
 
   closeButtons.forEach((button) => {
     button.addEventListener('click', closeLightbox);
   });
 
+  prevButton?.addEventListener('click', () => {
+    const nextIndex = (currentIndex - 1 + openButtons.length) % openButtons.length;
+    openLightbox(nextIndex);
+  });
+
+  nextButton?.addEventListener('click', () => {
+    const nextIndex = (currentIndex + 1) % openButtons.length;
+    openLightbox(nextIndex);
+  });
+
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeLightbox();
+    if (event.key === 'ArrowLeft') {
+      const nextIndex = (currentIndex - 1 + openButtons.length) % openButtons.length;
+      openLightbox(nextIndex);
+    }
+    if (event.key === 'ArrowRight') {
+      const nextIndex = (currentIndex + 1) % openButtons.length;
+      openLightbox(nextIndex);
+    }
   });
 </script>

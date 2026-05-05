@@ -2,20 +2,27 @@
 import BaseLayout from './BaseLayout.astro';
 import type { CollectionEntry } from 'astro:content';
 import { withBase } from '../lib/site';
+import { postUrl } from '../lib/posts';
 
 type Props = {
   post: CollectionEntry<'blog'>;
+  previousPost?: CollectionEntry<'blog'>;
+  nextPost?: CollectionEntry<'blog'>;
 };
 
-const { post } = Astro.props;
+const { post, previousPost, nextPost } = Astro.props;
 const date = post.data.pubDate.toLocaleDateString('zh-CN', {
   year: 'numeric',
   month: 'long',
   day: 'numeric'
 });
+
+const wordCount = post.body?.replace(/\s+/g, '').length ?? 0;
+const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="reading-progress" id="reading-progress" aria-hidden="true"></div>
   <article class="article">
     <header class="article-header">
       <h1>{post.data.title}</h1>
@@ -23,17 +30,91 @@ const date = post.data.pubDate.toLocaleDateString('zh-CN', {
       <div class="meta">
         <time datetime={post.data.pubDate.toISOString()}>{date}</time>
         <a href={withBase(`/categories/${encodeURIComponent(post.data.category)}/`)}>{post.data.category}</a>
+        <span>{readingMinutes} 分钟阅读</span>
       </div>
       <div class="tag-list">
         {post.data.tags.map((tag) => <a class="tag" href={withBase(`/tags/${encodeURIComponent(tag)}/`)}>{tag}</a>)}
       </div>
     </header>
+
+    <nav class="article-toc" id="article-toc" aria-label="文章目录" hidden>
+      <strong>目录</strong>
+      <ol id="article-toc-list"></ol>
+    </nav>
+
     <div class="article-body">
       <slot />
     </div>
+    <nav class="article-pagination" aria-label="上一篇和下一篇">
+      {
+        previousPost ? (
+          <a href={postUrl(previousPost)}>
+            <span>上一篇</span>
+            <strong>{previousPost.data.title}</strong>
+          </a>
+        ) : (
+          <span></span>
+        )
+      }
+      {
+        nextPost ? (
+          <a href={postUrl(nextPost)}>
+            <span>下一篇</span>
+            <strong>{nextPost.data.title}</strong>
+          </a>
+        ) : (
+          <span></span>
+        )
+      }
+    </nav>
     <footer class="article-actions">
       <a href={withBase('/posts/')}>返回博客列表</a>
       <a href={withBase('/writing/')}>查看写作指南</a>
     </footer>
   </article>
 </BaseLayout>
+
+<script>
+  const progress = document.querySelector('#reading-progress') as HTMLElement | null;
+  const article = document.querySelector('.article-body');
+  const toc = document.querySelector('#article-toc') as HTMLElement | null;
+  const tocList = document.querySelector('#article-toc-list');
+  const headings = article
+    ? Array.from(article.querySelectorAll<HTMLHeadingElement>('h2, h3'))
+    : [];
+
+  function slugify(text: string) {
+    return text
+      .trim()
+      .toLowerCase()
+      .replace(/[^\p{Letter}\p{Number}\s-]/gu, '')
+      .replace(/\s+/g, '-');
+  }
+
+  if (toc && tocList && headings.length > 0) {
+    headings.forEach((heading, index) => {
+      if (!heading.id) heading.id = `${slugify(heading.textContent || 'section')}-${index + 1}`;
+      const item = document.createElement('li');
+      if (heading.tagName === 'H3') item.classList.add('toc-child');
+      const link = document.createElement('a');
+      link.href = `#${heading.id}`;
+      link.textContent = heading.textContent || '';
+      item.append(link);
+      tocList.append(item);
+    });
+    toc.hidden = false;
+  }
+
+  function updateProgress() {
+    if (!progress || !article) return;
+    const rect = article.getBoundingClientRect();
+    const total = rect.height - window.innerHeight * 0.65;
+    const read = Math.min(Math.max(-rect.top, 0), total);
+    const percent = total > 0 ? read / total : 0;
+    progress.style.transform = `scaleX(${percent})`;
+  }
+
+  updateProgress();
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+</script>

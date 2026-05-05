@@ -7,9 +7,16 @@ import { withBase } from '../lib/site';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 4);
+  .slice(0, 6);
 
 const categories = ['知识管理', '项目', '阅读', '生活杂谈'];
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const categoryCounts = new Map(
+  categories.map((category) => [
+    category,
+    allPosts.filter((post) => post.data.category === category).length
+  ])
+);
 ---
 
 <BaseLayout>
@@ -17,6 +24,7 @@ const categories = ['知识管理', '项目', '阅读', '生活杂谈'];
     <div class="hero-overlay site-shell">
       <h1>每天进步一点点</h1>
       <TodayPanel />
+      <p class="daily-note">把今天值得记住的东西留下来，明天就会多一个可以回看的坐标。</p>
     </div>
   </section>
 
@@ -25,7 +33,14 @@ const categories = ['知识管理', '项目', '阅读', '生活杂谈'];
       <span class="eyebrow">Categories</span>
       <h2>博客分类</h2>
       <nav>
-        {categories.map((category) => <a href={withBase(`/categories/${encodeURIComponent(category)}/`)}>{category}</a>)}
+        {
+          categories.map((category) => (
+            <a href={withBase(`/categories/${encodeURIComponent(category)}/`)}>
+              <span>{category}</span>
+              <small>{categoryCounts.get(category) ?? 0}</small>
+            </a>
+          ))
+        }
       </nav>
     </aside>
 
