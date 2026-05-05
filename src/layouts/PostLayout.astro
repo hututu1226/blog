@@ -80,7 +80,7 @@ const readingMinutes = Math.max(1, Math.ceil(wordCount / 500));
   const toc = document.querySelector('#article-toc') as HTMLElement | null;
   const tocList = document.querySelector('#article-toc-list');
   const headings = article
-    ? Array.from(article.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4'))
+    ? Array.from(article.querySelectorAll<HTMLHeadingElement>('h1, h2, h3, h4, h5'))
     : [];
 
   function slugify(text: string) {

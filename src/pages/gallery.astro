@@ -92,6 +92,7 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
   let startTranslateX = 0;
   let startTranslateY = 0;
   let isDragging = false;
+  const dragSensitivity = 2.4;
 
   function applyImageTransform() {
     if (!lightboxImage) return;
@@ -178,8 +179,8 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
 
   lightboxImage?.addEventListener('pointermove', (event) => {
     if (!isDragging) return;
-    translateX = startTranslateX + event.clientX - dragStartX;
-    translateY = startTranslateY + event.clientY - dragStartY;
+    translateX = startTranslateX + (event.clientX - dragStartX) * dragSensitivity;
+    translateY = startTranslateY + (event.clientY - dragStartY) * dragSensitivity;
     applyImageTransform();
   });
 
@@ -190,6 +191,7 @@ const sortedGalleryItems = [...galleryItems].sort((a, b) => {
 
   lightboxImage?.addEventListener('pointerup', stopDragging);
   lightboxImage?.addEventListener('pointercancel', stopDragging);
+  lightboxImage?.addEventListener('lostpointercapture', stopDragging);
 
   window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') closeLightbox();

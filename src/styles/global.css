@@ -518,6 +518,15 @@ main {
   font-size: 0.9rem;
 }
 
+.toc-level-2 {
+  margin-left: 0.75rem;
+}
+
+.toc-level-5 {
+  margin-left: 3rem;
+  font-size: 0.86rem;
+}
+
 .article-pagination {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
