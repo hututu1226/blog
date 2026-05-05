@@ -460,6 +460,19 @@ main {
   box-shadow: var(--shadow);
 }
 
+.article-body blockquote {
+  margin: 1.5rem 0;
+  border-left: 3px solid rgba(154, 168, 183, 0.72);
+  border-radius: 0 8px 8px 0;
+  background: rgba(226, 232, 240, 0.07);
+  padding: 0.9rem 1rem;
+  color: rgba(237, 242, 247, 0.86);
+}
+
+.article-body blockquote p {
+  margin: 0.35rem 0;
+}
+
 .article-body h2 {
   margin-top: 2.4rem;
   line-height: 1.3;
